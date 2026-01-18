@@ -146,7 +146,7 @@ public:
         tail = temp;
     }
 
-    void pop_middle(int position)
+    void pop_atIndex(int position)
     {
         if (head == NULL)
         {
@@ -205,7 +205,7 @@ int main()
     ll.insertInMiddle(100, 2);
     ll.printLL();
     // ll.pop_back();
-    ll.pop_middle(1);
+    ll.pop_atIndex(1);
     cout << endl;
     ll.printLL();
     return 0;
