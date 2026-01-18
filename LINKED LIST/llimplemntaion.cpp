@@ -121,6 +121,13 @@ public:
     }
 
     void pop_front(){
+        if (head == NULL)
+        {
+            cout << "Linked list is empty " << endl ;
+            return ;
+        }
+        
+
         Node *temp = head ;
         head = head->next ;
         temp->next = NULL ;
