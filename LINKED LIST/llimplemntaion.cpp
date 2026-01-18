@@ -44,7 +44,7 @@ public:
         
     }
 
-    void pushFront(int val)
+    void push_front(int val)
     {
         Node *newNode = new Node(val); // Dynamic memory location
 
@@ -59,7 +59,7 @@ public:
         }
     }
 
-    void pushBack(int val)
+    void push_Back(int val)
     {
         Node *newNode = new Node(val);
         if (head == NULL)
@@ -119,21 +119,30 @@ public:
         newNode->next = temp->next;
         temp->next = newNode;
     }
+
+    void pop_front(){
+        Node *temp = head ;
+        head = head->next ;
+        temp->next = NULL ;
+        delete temp ;
+    }
 };
 
 int main()
 {
     List ll;
 
-    ll.pushFront(3);
-    ll.pushFront(2);
-    ll.pushFront(1);
-    ll.pushFront(0);
-    ll.pushBack(4);
-    ll.pushBack(5);
-    ll.pushBack(6);
-    
+    ll.push_front(3);
+    ll.push_front(2);
+    ll.push_front(1);
+    ll.push_front(0);
+    // ll.push_Back(4);
+    // ll.push_Back(5);
+    // ll.push_Back(6);
     ll.insertInMiddle(100,2);
+    ll.printLL();
+    ll.pop_front();
+    cout << endl ;
     ll.printLL();
     return 0;
 }
