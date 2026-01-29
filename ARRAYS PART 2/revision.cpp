@@ -1,26 +1,41 @@
-#include<iostream>
-using namespace std ;
+#include <iostream>
+#include<algorithm>
+using namespace std;
 
-int optimizedSumSubarray(int arr[], int n)
+int waterTrapped(int heights[], int n)
 {
-    int currentSum = 0 ;
-    int maxSum = INT32_MIN ;
+    int rightMax[100000];
+    int leftMax[100000];
+    int area[100000];
+    int waterTrapped = 0;
+
+    leftMax[0] = heights[0];
+    rightMax[n - 1] = heights[n - 1];
+
+    for (int i = 1; i < n; i++)
+    {
+        leftMax[i] = max(heights[i - 1], leftMax[i - 1]);
+    }
+
+    for (int i = n - 2; i >= 0; i--)
+    {
+        rightMax[i] = max(heights[i + 1], rightMax[i + 1]);
+    }
+
     for (int i = 0; i < n; i++)
     {
-        if (arr[i] > (currentSum + arr[i]))
+        area[i] = min(leftMax[i], rightMax[i]) - heights[i];
+        if (area[i] > 0)
         {
-            currentSum = arr[i] ;
-        }else {
-            currentSum += arr[i] ;
+            waterTrapped += area[i];
         }
-        maxSum = max(currentSum,maxSum);
     }
-    return maxSum ;
+    return waterTrapped ;
 }
 
 int main()
 {
-    int A[] ={2,-3,6,-5,4,2} ;
-    cout << "Maximum sum of the subarray : " << optimizedSumSubarray(A,6) ;
-    return 0 ;
+    int A[] = {4, 2, 0, 6, 3, 2, 5};
+    cout << "Trapped water is  : " << waterTrapped(A, 7);
+    return 0;
 }
