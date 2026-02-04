@@ -131,83 +131,44 @@ public:
         tail = temp;
     }
 };
-
-Node *splitAtMid(Node *head)
-{
-    Node *slow = head;
-    Node *fast = head;
-    Node *previous = NULL;
-
+Node* splitAtMid(Node* head){
+    Node* slow = head ;
+    Node* fast = head ;
+    Node* previous = NULL ;
     while (fast != NULL && fast->next != NULL)
     {
-        previous = slow;
-        slow = slow->next;
+        previous = slow ;
+        slow = slow->next ;
         fast = fast->next->next;
     }
     if (previous != NULL)
     {
-        previous->next = NULL;
+        previous->next = NULL ;
     }
-    return slow;
+    return slow ;
 }
 
-Node *merge(Node *head, Node *rightHead)
-{
-    List ans;
-    Node *i = head;
-    Node *j = rightHead;
-    while (i != NULL && j != NULL)
+Node* reverse(Node* head){
+    Node *current = head ;
+    Node *previous = NULL ;
+    Node* next = NULL ;
+    while (current != NULL)
     {
-        if (i->data <= j->data)
-        {
-            ans.push_Back(i->data);
-            i = i->next;
-        }
-        else
-        {
-            ans.push_Back(j->data);
-            j = j->next;
-        }
-    }
+        next = current->next;
+        current->next = previous ;
 
-    while (i != NULL)
-    {
-        ans.push_Back(i->data);
-        i = i->next;
+        previous = current ;
+        current = next ;
     }
-
-    while (j != NULL)
-    {
-        ans.push_Back(j->data);
-        j = j->next;
-    }
-    return ans.head ; 
+    return previous ;
 }
-Node* mergeSort(Node *head)
-{
-    if (head == NULL || head->next == NULL)
-    {
-        return head ;
-    }
+void zigZagLL(Node* head){
+    Node* rightHead = splitAtMid(head); 
+    Node* reversedRightHead = reverse(rightHead);
 
-    Node *rightHead = splitAtMid(head);
-    Node* left = mergeSort(head);
-    Node*right = mergeSort(rightHead);
-    
-    return merge(left,right);
+    // alternate merging of this two lists 1st head = head 2nd head = reversedRigtHead 
 }
-
 int main()
 {
-    List ll;
 
-    ll.push_Back(5);
-    ll.push_Back(2);
-    ll.push_Back(1);
-    ll.push_Back(3);
-    ll.push_Back(4);
-
-    ll.printLL();
-    ll.head = mergeSort(ll.head);
-    ll.printLL();
 }

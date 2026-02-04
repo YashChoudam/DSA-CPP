@@ -1,47 +1,62 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+#include<iostream>
+#include<vector>
+using namespace std ;
 
-int search(vector<int> nums, int target)
+void display(int arr[], int n)
 {
-    int start = 0, end = nums.size() - 1;
-    while (start <= end)
+    for (int i = 0; i < n; i++)
     {
-        int mid = start + (end - start) / 2;
-        if (nums[mid] == target)
-        {
-            return mid;
-        }
+        cout << arr[i] << "  ";
+    }
+    cout << endl;
+}
 
-        if (nums[start] <= nums[mid])
-        {
-            if (nums[start] <= target && nums[mid] >= target)
-            {
-                end = mid - 1;
-            }
-            else
-            {
-                start = mid + 1;
-            }
-        }
-        else
-        {
-            if (nums[mid] <= target && nums[end] >= target)
-            {
-                start = mid + 1;
-            }
-            else
-            {
-                end = mid - 1;
-            }
+void merge(int arr[], int start, int mid, int end){
+    vector<int> temp ;
+    int i = start ;
+    int j = mid + 1;
+
+    while (i <= mid && j <= end)
+    {
+        if(arr[i] <= arr[j]){
+            temp.push_back(arr[i++]);
+        }else{
+            temp.push_back(arr[j++]);
         }
     }
-    return -1;
+
+    while (i <= mid)
+    {
+        temp.push_back(arr[i++]);
+    }
+    
+    while (j <= end)
+    {
+        temp.push_back(arr[j++]);
+    }
+
+    for (int index = start, x = 0; index <= end; index++)
+    {
+        arr[index] = temp[x++];
+    }
+}
+
+void mergeSort(int arr[], int start , int end){
+    int mid = start + (end - start)/2 ;
+    if (start >= end)
+    {
+        return ;
+    }
+    mergeSort(arr,start,mid); // left half
+    mergeSort(arr,mid+1,end); // right half
+    merge(arr,start,mid,end); // conquer
 }
 
 int main()
 {
-    vector<int> A = {4, 5, 6, 7, 0, 1, 2};
-    cout << "Position of 0 is : " << search(A,0) << endl;
+    int A[] = {6, 3, 7, 5, 2, 4};
+    int n = 6;
+    mergeSort(A, 0, n - 1);
+    display(A, n);
     return 0;
 }
