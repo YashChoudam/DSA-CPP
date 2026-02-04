@@ -1,29 +1,36 @@
 #include <iostream>
-#include <string.h>
+#include <algorithm>
+#include <string>
 using namespace std;
-void toLowerCase(char word[], int n)
+
+bool isAnagram(string str1, string str2)
 {
-    for (int i = 0; i < n; i++)
+    if (str1.length() != str2.length())
     {
-        char ch = word[i];
-        if (ch >= 'a' && ch <= 'z')
-        {
-            continue;
-        }else if (ch == ' ')
-        {
-            continue; 
-        }else {
-            word[i] = ch - 'A' + 'a' ;
-        }
-        
+        return false;
     }
+    int count[26] = {0};
+    for (int i = 0; i < str1.length(); i++)
+    {
+        int index = str1[i] - 'a';
+        count[index]++;
+    }
+
+    for (int i = 0; i < str2.length(); i++)
+    {
+        int index = str2[i] - 'a';
+        if (count[index] == 0)
+        {
+            return false;
+        }
+        else
+        {
+            count[index]--;
+        }
+    }
+    return true ;
 }
-int main()
-{
-    char word[] = "HellO woRLD tHIS is YASh " ;
-    cout << word << endl ;
-    cout << "LowerCase : " ;
-    toLowerCase(word,strlen(word)) ;
-    cout << word << endl ;
+int main(){
+    cout << isAnagram("racecar","racerac");
     return 0 ;
 }

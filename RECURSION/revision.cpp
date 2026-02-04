@@ -1,15 +1,23 @@
-#include<iostream>
-using namespace std ;
+#include <iostream>
+using namespace std;
 
-int sum(int n)
+int pow(int x, int n)
 {
     if (n == 0)
+        return 1;
+
+    int halfPower = pow(x, n / 2);
+    int halfPowerSquare = halfPower * halfPower;
+    if (n % 2 == 0)
     {
-        return 0 ;
+        return halfPowerSquare;
     }
-    return n + sum(n-1);
+    else
+    {
+        return x * halfPowerSquare;
+    }
 }
-int main()
-{
-    cout << sum(100);
+int main(){
+    cout << pow(25,5) << endl ;
+    return 0 ;
 }
