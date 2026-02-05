@@ -10,15 +10,14 @@ public:
 
     Node(int val)
     {
-        data = val;
         next = NULL;
+        data = val;
     }
 };
 
 class List
 {
 public:
-
     Node *head;
     Node *tail;
 
@@ -27,7 +26,6 @@ public:
         head = NULL;
         tail = NULL;
     }
-
     void push_front(int val)
     {
         Node *newNode = new Node(val); // Dynamic memory location
@@ -42,8 +40,7 @@ public:
             head = newNode;
         }
     }
-
-    void push_Back(int val)
+    void push_back(int val)
     {
         Node *newNode = new Node(val);
         if (head == NULL)
@@ -67,94 +64,33 @@ public:
             {
                 cout << " -> ";
             }
-
-            temp = temp->next;
+            temp = temp->next ;
         }
-        cout << endl ;
-    }
-
-    void insertInMiddle(int val, int position)
-    {
-        Node *newNode = new Node(val);
-        Node *temp = head;
-        if (head == NULL)
-        {
-            head = tail = newNode;
-            return;
-        }
-
-        if (position == 0)
-        {
-            newNode->next = head;
-            head = newNode;
-            return;
-        }
-
-        for (int i = 0; i < position - 1; i++)
-        {
-            if (temp == NULL)
-            {
-                cout << "Position is Invalid " << endl;
-                delete newNode;
-                return;
-            }
-
-            temp = temp->next;
-        }
-        newNode->next = temp->next;
-        temp->next = newNode;
-    }
-
-    void pop_front()
-    {
-        if (head == NULL)
-        {
-            cout << "Linked list is empty " << endl;
-            return;
-        }
-
-        Node *temp = head;
-        head = head->next;
-        temp->next = NULL;
-        delete temp;
-    }
-
-    void pop_back()
-    {
-        Node *temp = head;
-        while (temp->next->next != NULL)
-        {
-            temp = temp->next;
-        }
-        temp->next = NULL;
-        delete tail;
-        tail = temp;
+        cout << endl;
     }
 };
+
 Node* splitAtMid(Node* head){
     Node* slow = head ;
     Node* fast = head ;
     Node* previous = NULL ;
+
     while (fast != NULL && fast->next != NULL)
     {
         previous = slow ;
-        slow = slow->next ;
+        slow = slow->next;
         fast = fast->next->next;
     }
-    if (previous != NULL)
-    {
-        previous->next = NULL ;
-    }
+    previous->next = NULL ;
     return slow ;
 }
 
-Node* reverse(Node* head){
-    Node *current = head ;
-    Node *previous = NULL ;
-    Node* next = NULL ;
+Node* reverseLL(Node* head){
+    Node* current = head ;
+    Node* previous = NULL ;
     while (current != NULL)
     {
-        next = current->next;
+        Node* next = current->next ;
         current->next = previous ;
 
         previous = current ;
@@ -162,13 +98,46 @@ Node* reverse(Node* head){
     }
     return previous ;
 }
-void zigZagLL(Node* head){
-    Node* rightHead = splitAtMid(head); 
-    Node* reversedRightHead = reverse(rightHead);
 
-    // alternate merging of this two lists 1st head = head 2nd head = reversedRigtHead 
+Node* zigZag(Node* head){
+    Node* rightHead = splitAtMid(head);
+    Node* rightReverse =  reverseLL(rightHead);
+
+    // Alternate merging 1st head = head , 2nd head = rightReverse
+    Node* left = head ;
+    Node* right = rightReverse ;
+    Node* tail = NULL ;
+    while (left != NULL && right != NULL)
+    {
+        Node* nextLeft = left->next ; 
+        Node* nextRight = right->next ;
+        
+        left->next = right ;
+        right->next = nextLeft ;
+        tail = right ;
+
+        left = nextLeft ;
+        right = nextRight ;
+    }
+    if(right != NULL ){
+        tail->next = right ;
+    }
+
+    return head ;
 }
+
 int main()
 {
+    List ll ;
+    ll.push_back(1);
+    ll.push_back(2);
+    ll.push_back(3);
+    ll.push_back(4);
+    ll.push_back(5);
 
+    ll.printLL();
+
+    ll.head = zigZag(ll.head);
+    ll.printLL();
+    return 0 ;
 }
