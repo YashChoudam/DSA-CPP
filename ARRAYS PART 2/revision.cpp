@@ -1,41 +1,21 @@
-#include <iostream>
-#include<algorithm>
-using namespace std;
+#include<iostream>
+using namespace std ;
 
-int waterTrapped(int heights[], int n)
-{
-    int rightMax[100000];
-    int leftMax[100000];
-    int area[100000];
-    int waterTrapped = 0;
-
-    leftMax[0] = heights[0];
-    rightMax[n - 1] = heights[n - 1];
-
-    for (int i = 1; i < n; i++)
-    {
-        leftMax[i] = max(heights[i - 1], leftMax[i - 1]);
-    }
-
-    for (int i = n - 2; i >= 0; i--)
-    {
-        rightMax[i] = max(heights[i + 1], rightMax[i + 1]);
-    }
-
+int kadens(int nums[], int n){
+    int currentSum = 0 ;
+    int maxSum = INT32_MIN;
     for (int i = 0; i < n; i++)
     {
-        area[i] = min(leftMax[i], rightMax[i]) - heights[i];
-        if (area[i] > 0)
-        {
-            waterTrapped += area[i];
+        currentSum += nums[i];
+        maxSum = max(maxSum,currentSum);
+        if(currentSum < 0){
+            currentSum = 0 ;
         }
     }
-    return waterTrapped ;
+    return maxSum ;
 }
-
-int main()
-{
-    int A[] = {4, 2, 0, 6, 3, 2, 5};
-    cout << "Trapped water is  : " << waterTrapped(A, 7);
-    return 0;
+int main(){
+    int A[] ={2,-3,6,-5,4,2} ;
+    cout << "Maximum sum is equal to : " << kadens(A,6) ;
+    return 0 ;
 }
